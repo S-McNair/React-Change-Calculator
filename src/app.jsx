@@ -3,13 +3,14 @@
 import React, { Component } from 'react';
 
 class App extends Component {
+
   constructor(props) {
     super(props);
 
     this.state = {
       amountDue: '',
       amountReceived: '',
-      changeDue: '',
+      // changeDue: '',
       twenties: '',
       tens: '',
       fives: '',
@@ -17,11 +18,15 @@ class App extends Component {
       quarters: '',
       dimes: '',
       nickels: '',
-      pennies: ''
+      pennies: '',
+      success: 'alert alert-primary text-center',
+      danger: '',
+      changeDueStr: 'CHANGE DUE'
       };
 
       this.handleClick = this.handleClick.bind(this);
       this.handleChange = this.handleChange.bind(this);
+
   }
 
 handleChange(event) {
@@ -39,10 +44,14 @@ event.preventDefault();
 let amountDue = this.state.amountDue;
 let amountReceived = this.state.amountReceived;
 let changeDue = (amountReceived - amountDue).toFixed(2);
+let twenties = this.state.twenties;
+
 this.setState({
   amountDue: amountDue,
   amountReceived: amountReceived,
-  changeDueStr: ('Your total change due is: $' + changeDue),
+  changeDue: changeDue,
+  changeDueStr: ('The total change due is $' + changeDue),
+  balanceDue: ('Remaining balance of payment is $' + (changeDue*(-1)) ),
   twenties: Math.floor(changeDue / 20),
   tens: Math.floor((changeDue / 10) % 2),
   fives: Math.floor((changeDue / 5) % 2),
@@ -50,16 +59,40 @@ this.setState({
   quarters: Math.floor(((changeDue * 100) % 100) / 25),
   dimes: Math.floor((((changeDue * 100) % 100) % 25) / 10),
   nickels: Math.floor(((((changeDue * 100) % 100) % 25) % 10) / 5),
-  pennies: Math.floor((changeDue * 100) % 5 + 0.01)
+  pennies: Math.floor((changeDue * 100) % 5 +0.01),
+  success: 'alert alert-success text-center',
+  danger: 'alert alert-danger text-center'
 });
 
-
-console.log(this.state.changeDue, this.state.amountDue);
 }
 
   render() {
 const amountDue = this.state.amountDue;
 const amountReceived = this.state.amountReceived;
+const changeDue = this.state.changeDue;
+const twenties = this.state.twenties;
+console.log(twenties);
+
+var sign = 1;
+var alarm = '';
+var alarmStr = '';
+
+  if (changeDue < 0) {
+    alarm = this.state.danger;
+    alarmStr = this.state.balanceDue;
+    sign = (0);
+    console.log(alarm);
+    console.log(alarmStr);
+
+}
+else {
+    alarm = this.state.success;
+    alarmStr = this.state.changeDueStr;
+
+      console.log(alarm);
+      console.log(alarmStr);
+}
+
 
 return (
 
@@ -99,36 +132,37 @@ return (
           <div className='card'>
                 <div className='card-body'>
 
-                    <div className='card text-center success'>
-                      <div className='card-body 'name='changeDue' >{this.state.changeDueStr} </div>
-                  </div><br/>
+                              <div className={ alarm }>
+                                  <strong>{alarmStr}</strong>
+                              </div><br/>
+
                     <div className='row'>
 {/* <!-- +++++++++++++++++++++++++++++++++++++ PAPER MONEY +++++++++++++++++++++++++++++++++++   --> */}
-                      <div className="col-md-3" name='twenty'>
+                      <div className='col-md-3' name='twenty'>
                         <div className='card text-center md-faded col-md-12'>
                         <div className='id' >TWENTIES</div>
-                        <div className='ans' name='twenty'>{this.state.twenties}</div>
+                        <div className='ans' name='twenty'>{this.state.twenties * sign}</div>
                        </div>
                       </div>
 
-                      <div className="col-md-3" name='ten'>
+                      <div className='col-md-3' name='ten'>
                           <div className='card text-center md-faded col-md-12'>
                           <div className='id' name='title' >TENS</div>
-                          <div className='ans' name='ten'>{this.state.tens}</div>
+                          <div className='ans' name='ten'>{this.state.tens * sign}</div>
                         </div>
                         </div>
 
-                        <div className="col-md-3"name='five'>
+                        <div className='col-md-3'name='five'>
                           <div className='card text-center md-faded col-md-12'>
                           <div className='id' name='title' >FIVES</div>
-                          <div className='ans' name='five'>{this.state.fives}</div>
+                          <div className='ans' name='five'>{this.state.fives * sign}</div>
                         </div>
                         </div>
 
-                      <div className="col-md-3"name='one'>
+                      <div className='col-md-3'name='one'>
                           <div className='card text-center md-faded col-md-12'>
                           <div className='id' name='title' >ONES</div>
-                          <div className='ans' name='one'>{this.state.ones}</div>
+                          <div className='ans' name='one'>{this.state.ones * sign}</div>
                         </div>
                         </div>
 
@@ -138,32 +172,32 @@ return (
 {/* <!-- +++++++++++++++++++++++++++++++++++++ COINS +++++++++++++++++++++++++++++++++++   --> */}
                     <div className='row'>
 
-                  <div className="col-md-3" name='twenty'>
+                  <div className='col-md-3' name='twenty'>
                     <div className='card text-center md-faded col-md-12'>
                     <div className='id' >QUARTERS</div>
-                    <div className='ans' name='twenty'>{this.state.quarters}</div>
+                    <div className='ans' name='twenty'>{this.state.quarters * sign}</div>
                     </div>
                   </div>
 
 
-                      <div className="col-md-3">
+                      <div className='col-md-3'>
                           <div className='card text-center md-faded col-md-12'>
                           <div className='id' name='title' >DIMES</div>
-                          <div className='ans' name='one'> {this.state.dimes}</div>
+                          <div className='ans' name='one'> {this.state.dimes * sign}</div>
                           </div>
                       </div>
 
-                      <div className="col-md-3">
+                      <div className='col-md-3'>
                           <div className='card text-center md-faded col-md-12'>
                           <div className='id' name='title' >NICKELS</div>
-                          <div className='ans' name='one'> {this.state.nickels}</div>
+                          <div className='ans' name='one'> {this.state.nickels * sign}</div>
                       </div>
                       </div>
 
-                      <div className="col-md-3">
+                      <div className='col-md-3'>
                           <div className='card text-center md-faded col-md-12'>
                         <div className='id' name='title' >PENNIES</div>
-                        <div className='ans' name='one'> {this.state.pennies}</div>
+                        <div className='ans' name='one'> {this.state.pennies * sign}</div>
                         </div>
                     </div>
                     </div>
