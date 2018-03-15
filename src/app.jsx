@@ -44,7 +44,7 @@ event.preventDefault();
 let amountDue = this.state.amountDue;
 let amountReceived = this.state.amountReceived;
 let changeDue = (amountReceived - amountDue).toFixed(2);
-let twenties = this.state.twenties;
+
 
 this.setState({
   amountDue: amountDue,
@@ -64,15 +64,14 @@ this.setState({
   danger: 'alert alert-danger text-center'
 });
 
+console.log(this.state.changeDue);
 }
 
-  render() {
+render() {
 const amountDue = this.state.amountDue;
 const amountReceived = this.state.amountReceived;
 const changeDue = this.state.changeDue;
-const twenties = this.state.twenties;
-console.log(twenties);
-
+console.log(this.state.twenties);
 var sign = 1;
 var alarm = '';
 var alarmStr = '';
@@ -112,10 +111,10 @@ return (
            <div className='card-body'>
 
              <label htmlFor='amountDue'><strong>Amount Due:</strong></label><br/>
-             <p>$ <input name='amountDue' type='number' className='col-10' onChange={this.handleChange} value={amountDue} placeholder='Enter Amount Due'/></p>
+             <input name='amountDue' type='number' className='col-10' onChange={this.handleChange} value={amountDue} placeholder='Enter Amount Due'/>
 
              <label htmlFor='amountReceived'><strong>Amount Received:</strong></label>
-             <p>$  <input name='amountReceived' type='number' className='input col-10' value={amountReceived} onChange={this.handleChange} placeholder='Enter Amount Received'/></p>
+             <input name='amountReceived' type='number' className='input col-10' value={amountReceived} onChange={this.handleChange} placeholder='Enter Amount Received'/>
             </div>
 
             <div className='card-footer'>
