@@ -10,7 +10,7 @@ class App extends Component {
     this.state = {
       amountDue: '',
       amountReceived: '',
-      // changeDue: '',
+      changeDue: '',
       twenties: '',
       tens: '',
       fives: '',
